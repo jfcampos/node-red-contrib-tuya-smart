@@ -19,7 +19,7 @@ export = (RED: Red) => {
 
         node.status({ fill:"yellow", shape:"ring", text: "connecting"});
         let indicateConnectionOk = () => node.status({ fill:"green", shape:"ring", text: "connected"});
-        let indicateConnectionError = (error:any) => node.status({ fill:"red", shape:"ring", text: "disconnected" + (error?(": " + error):"")});
+        let indicateConnectionError = () => node.status({ fill:"red", shape:"ring", text: "disconnected" });
         let indicateFailedToSetState = () => node.status({ fill:"red", shape:"ring", text: "error changing state"});
         
         /**
@@ -97,7 +97,7 @@ export = (RED: Red) => {
                 result ? indicateConnectionOk() : indicateFailedToSetState();
                 pollAndSendState();
             }).catch(e => {
-                indicateConnectionError(e);
+                indicateConnectionError();
                 console.error(e);
             });
         };
@@ -124,11 +124,11 @@ export = (RED: Red) => {
         });
 
         smartDevice.on('disconnected', () => {
-            indicateConnectionError(null);
+            indicateConnectionError();
         });
 
         smartDevice.on('error', (error:any) => {
-            indicateConnectionError(error);
+            indicateConnectionError();
         });
 
 

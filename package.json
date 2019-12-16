@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist pkg out",
-    "build": "tsc",
+    "build": "tsc && copy lib\\*.html dist\\lib\\",
     "debug": "docker run -it -p 1880:1880 -v $(pwd)/dist/lib:/data/nodes nodered/node-red-docker"
   },
   "repository": {
