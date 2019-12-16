@@ -115,7 +115,7 @@ export = (RED: Red) => {
         };
         let smartDevice = new TuyaDevice(deviceOptions);
 
-        smartDevice.get().then(() => {
+        /*smartDevice.get().then(() => {
             smartDevice.connect();
         });
 
@@ -130,7 +130,7 @@ export = (RED: Red) => {
         smartDevice.on('error', (error:any) => {
             indicateConnectionError();
         });
-
+*/
 
     }
 
