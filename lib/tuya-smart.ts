@@ -127,7 +127,7 @@ export = (RED: Red) => {
             indicateConnectionError(null);
         });
 
-        smartDevice.on('error', error => {
+        smartDevice.on('error', (error:any) => {
             indicateConnectionError(error);
         });
 
