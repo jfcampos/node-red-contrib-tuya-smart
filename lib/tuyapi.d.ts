@@ -6,6 +6,8 @@ declare class TuyaDevice {
     connect():Promise<Boolean>;
     disconnect():Promise<Boolean>;
     isConnected():Boolean;
+    on(event: string | symbol, listener: (...args: any[]) => void): this;
+    find(options?:any):Promise<Boolean>;
 }
 
 declare interface TuyaDeviceOptions {

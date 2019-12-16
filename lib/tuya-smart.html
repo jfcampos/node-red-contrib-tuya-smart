@@ -23,6 +23,7 @@
                 } 
             },
             pollingInterval: { value: 10, validate:RED.validators.number(), required: true }
+            protocolVersion: { value: "3.1", required: true },
         },
         inputs: 1,
         outputs: 1,
@@ -51,12 +52,16 @@
         <input type="text" id="node-input-deviceKey" placeholder="fd358171e8au7ef2">
     </div>
     <div class="form-row">
-        <label for="node-input-deviceKey"><i class="fa fa-list-ul"></i> Request</label>
+        <label for="node-input-request"><i class="fa fa-list-ul"></i> Request</label>
         <input type="text" id="node-input-request" placeholder="">
     </div>
     <div class="form-row">
         <label for="node-input-pollingInterval"><i class="fa fa-clock-o"></i> Polling interval (seconds)</label>
         <input type="text" id="node-input-pollingInterval" placeholder="10">
+    </div>
+    <div class="form-row">
+        <label for="node-input-protocolVersion"><i class="fa fa-list-ul"></i> Request</label>
+        <input type="text" id="node-input-protocolVersion" placeholder="">
     </div>
 </script>
 
@@ -69,6 +74,7 @@
             <li><code>deviceIp: "string"</code> - The configured device ip</li>
             <li><code>deviceId: "string"</code> - The configured device id (similar to the one from the tuya smart/smart life app</li>
             <li><code>deviceName: "string"</code> - The configured device name (arbitrary) for you to identify devices more easily.</li>
+            <li><code>protocolVersion: "string"</code> - The configured protocol version.</li>
         </ul>
     </p>
     <p>The <code>data</code> payload depends on the <code>request</code>. Options are

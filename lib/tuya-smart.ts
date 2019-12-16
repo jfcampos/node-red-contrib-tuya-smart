@@ -15,10 +15,11 @@ export = (RED: Red) => {
         this.deviceIp = properties.deviceIp;
         this.pollingInterval = properties.pollingInterval;
         this.request = JSON.parse(properties.request);
+        this.protocolVersion = properties.protocolVersion;
 
         node.status({ fill:"yellow", shape:"ring", text: "connecting"});
         let indicateConnectionOk = () => node.status({ fill:"green", shape:"ring", text: "connected"});
-        let indicateConnectionError = () => node.status({ fill:"red", shape:"ring", text: "disconnected"});
+        let indicateConnectionError = (error:any) => node.status({ fill:"red", shape:"ring", text: "disconnected" + (error?(": " + error):"")});
         let indicateFailedToSetState = () => node.status({ fill:"red", shape:"ring", text: "error changing state"});
         
         /**
@@ -96,7 +97,7 @@ export = (RED: Red) => {
                 result ? indicateConnectionOk() : indicateFailedToSetState();
                 pollAndSendState();
             }).catch(e => {
-                indicateConnectionError();
+                indicateConnectionError(e);
                 console.error(e);
             });
         };
@@ -109,12 +110,28 @@ export = (RED: Red) => {
         let deviceOptions = {
             id: node.deviceId,
             key: node.deviceKey,
-            ip: node.deviceIp
+            ip: node.deviceIp,
+            version: node.protocolVersion
         };
         let smartDevice = new TuyaDevice(deviceOptions);
 
-        // initiate the node
-        startPolling();
+        smartDevice.get().then(() => {
+            smartDevice.connect();
+        });
+
+        smartDevice.on('connected', () => {
+            startPolling();
+        });
+
+        smartDevice.on('disconnected', () => {
+            indicateConnectionError(null);
+        });
+
+        smartDevice.on('error', error => {
+            indicateConnectionError(error);
+        });
+
+
     }
 
     RED.nodes.registerType("tuya-smart", TuyaSmartConfigNode, {
